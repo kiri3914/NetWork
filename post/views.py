@@ -1,25 +1,24 @@
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
-from .serializers import PostSerializer
-from .models import Post
+
+from .mixins import LikeMixins, UnLikeMixins
+from .serializers import PostSerializer, LikeSerializer, UnLikeSerializer
+from .models import Post, Like, UnLike
 
 
-class ListPostView(ModelViewSet):
-    http_method_names = ['get', 'head']
+class ListPostViewSet(LikeMixins, UnLikeMixins, ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [permissions.AllowAny, ]
+    # permission_classes = [permissions.IsAdminUser | permissions.IsAuthenticated]
 
 
-class CreatePostView(ModelViewSet):
-    http_method_names = ['post', 'patch']
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [permissions.IsAdminUser | permissions.IsAuthenticated]
+class ListLikeViewSet(ModelViewSet):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    # permission_classes = [permissions.IsAdminUser | permissions.IsAuthenticated]
 
 
-class LikePostView(ModelViewSet):
-    http_method_names = ['post', 'patch']
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [permissions.IsAdminUser | permissions.IsAuthenticated]
+class ListUnLikeViewSet(ModelViewSet):
+    queryset = UnLike.objects.all()
+    serializer_class = UnLikeSerializer
+    # permission_classes = [permissions.IsAdminUser | permissions.IsAuthenticated]

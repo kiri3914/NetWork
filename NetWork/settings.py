@@ -14,6 +14,8 @@ import os
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import django_filters.rest_framework
+
 import post.apps
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -48,8 +50,13 @@ INSTALLED_APPS = [
     # JWT серверная библиотека аутентификации
     'rest_framework_simplejwt',
 
+    'django_filters',
+
     # Приложения
     'post.apps.PostConfig',
+
+    # Swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -114,6 +121,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_FILTER_BACKEND': (
+        'django_filters.rest_framework.DjandoFilterBackend',
+    )
 }
 
 # Internationalization
@@ -135,7 +145,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=24),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=855),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
